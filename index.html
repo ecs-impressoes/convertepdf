@@ -1,10 +1,20 @@
+Abaixo está o código completo do site com as melhorias solicitadas: meta tags para SEO (foco em “conversor de pdf” e “pdf para word”), palavras-chave, descrição otimizada, e a inclusão do código do Google AdSense com um bloco de anúncio responsivo posicionado de forma discreta e profissional. Basta substituir o publisher ID pelo seu próprio código do AdSense.
 
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title> Conversor offline completo | PDF, DOC, Excel, JPG</title>
+    <title>ConvTools - Conversor de PDF para Word, JPG, Excel e mais | Offline e Gratuito</title>
+    <!-- Meta tags SEO -->
+    <meta name="description" content="Converta PDF para Word, Excel, JPG, organize, una, numere e traduza PDFs. 100% offline, sem upload, ilimitado e gratuito.">
+    <meta name="keywords" content="conversor de pdf, pdf para word, pdf para jpg, unir pdf, extrair páginas pdf, converter documentos, offline converter, pdf para excel, jpg para pdf, numerar pdf">
+    <meta name="author" content="ConvTools">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.seusite.com/">
+    <!-- Google AdSense (substitua ca-pub-XXXXXXXXXXXXXXXX pelo seu ID) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
     <!-- Font Awesome 6 (icons) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Bibliotecas essenciais -->
@@ -45,7 +55,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
             flex-wrap: wrap;
             gap: 1rem;
             background: rgba(255,255,255,0.5);
@@ -65,7 +75,6 @@
         .logo-area h1 {
             font-weight: 700;
             font-size: 1.9rem;
-            /* Cor vermelha profissional e elegante */
             color: #c23b22;
             background: none;
             -webkit-text-fill-color: #c23b22;
@@ -85,7 +94,7 @@
         .trust-badge {
             display: flex;
             gap: 1.8rem;
-            color: #c23b22;  /* vermelho principal */
+            color: #c23b22;
             font-weight: 600;
             background: #ffffffcc;
             padding: 0.5rem 1.4rem;
@@ -95,15 +104,28 @@
 
         .trust-badge i {
             margin-right: 6px;
-            color: #c23b22;  /* ícones também em vermelho */
+            color: #c23b22;
         }
 
-        /* grid dos cards — envolvente e moderno */
+        /* Anúncio responsivo */
+        .ad-container {
+            text-align: center;
+            margin: 1.5rem 0;
+            background: rgba(255,255,240,0.2);
+            border-radius: 20px;
+            padding: 0.5rem;
+        }
+        .ad-container ins {
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* grid dos cards */
         .tool-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 2rem;
-            margin: 2.5rem 0;
+            margin: 2rem 0;
         }
 
         .card {
@@ -278,7 +300,6 @@
             border-left: 3px solid #F3B33D;
         }
 
-        /* card doação com destaque elegante */
         .donation-card {
             background: linear-gradient(125deg, #fffef7, #ffffff);
             border: 1px solid #ffe1b3;
@@ -385,6 +406,19 @@
         </div>
     </div>
 
+    <!-- Bloco de anúncio Google AdSense (responsivo) -->
+    <div class="ad-container">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"  <!-- substitua pelo seu ID -->
+             data-ad-slot="1234567890"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
     <div class="tool-grid">
         <!-- UNIR PDF -->
         <div class="card"><div class="card-header"><div class="icon"><i class="fas fa-layer-group"></i></div><h3>Unir PDF</h3></div><div class="card-desc">Combine vários PDFs em um único arquivo.</div><div class="file-zone"><i class="fas fa-cloud-upload-alt"></i><input type="file" id="mergeInput" multiple accept=".pdf" /></div><button class="btn-primary" onclick="mergePDF()"><i class="fas fa-object-group"></i> Unir arquivos</button><div class="status" id="mergeStatus"></div></div>
@@ -464,7 +498,7 @@
         });
     });
 
-    // ========== FUNÇÕES PRINCIPAIS ==========
+    // ========== FUNÇÕES DE CONVERSÃO ==========
     async function mergePDF() {
         const input = document.getElementById('mergeInput');
         const status = document.getElementById('mergeStatus');
