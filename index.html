@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ECS - Conversor de PDF para Word, JPG, Excel e mais | Offline e Gratuito</title>
+    <title>ConvTools - Conversor de PDF para Word, JPG, Excel e mais | Offline e Gratuito</title>
     <!-- Meta tags SEO -->
     <meta name="description" content="Converta PDF para Word, Excel, JPG, organize, una, numere e traduza PDFs. 100% offline, sem upload, ilimitado e gratuito.">
     <meta name="keywords" content="conversor de pdf, pdf para word, pdf para jpg, unir pdf, extrair páginas pdf, converter documentos, offline converter, pdf para excel, jpg para pdf, numerar pdf">
@@ -11,10 +11,13 @@
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.seusite.com/">
     
-    <!-- Google AdSense - Código correto com seu ID de publisher -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6101697624775208" crossorigin="anonymous"></script>
+    <!-- FAVICON - Gerado dinamicamente com Canvas -->
+    <link rel="icon" type="image/png" id="dynamicFavicon">
+    <link rel="shortcut icon" type="image/png" id="dynamicShortcut">
     
-    <!-- Font Awesome 6 -->
+    <!-- Google AdSense com seu ID -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6101697624775208" crossorigin="anonymous"></script>
+    <!-- Font Awesome 6 (icons) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Bibliotecas essenciais -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
@@ -29,7 +32,105 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+        
+        // Função para gerar o favicon dinamicamente
+        function generateFavicon() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 64;
+            canvas.height = 64;
+            const ctx = canvas.getContext('2d');
+            
+            // Fundo gradiente vermelho/laranja (mesmo estilo da top-bar)
+            const gradient = ctx.createLinearGradient(0, 0, 64, 64);
+            gradient.addColorStop(0, '#b2221c');
+            gradient.addColorStop(1, '#d43f1f');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 64, 64);
+            
+            // Borda arredondada (efeito visual)
+            ctx.save();
+            ctx.beginPath();
+            ctx.roundRect(0, 0, 64, 64, 12);
+            ctx.clip();
+            
+            // Desenhar um símbolo de ferramenta/engrenagem simples
+            ctx.fillStyle = '#ffffff';
+            ctx.shadowColor = 'rgba(0,0,0,0.3)';
+            ctx.shadowBlur = 2;
+            
+            // Letra C (ConvTools)
+            ctx.font = 'bold 32px "Segoe UI", "Inter", system-ui';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText('C', 32, 32);
+            
+            // Pequeno detalhe: um ícone de ferramenta ao lado
+            ctx.font = '20px "Font Awesome 6 Free"';
+            ctx.fillStyle = '#ffd966';
+            ctx.fillText('\uf0ad', 48, 48); // ícone de ferramenta (fa-tools)
+            
+            ctx.shadowBlur = 0;
+            ctx.restore();
+            
+            // Adicionar um pequeno destaque branco
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+            ctx.lineWidth = 1.5;
+            ctx.roundRect(2, 2, 60, 60, 10);
+            ctx.stroke();
+            
+            // Converter para URL de dados e aplicar como favicon
+            const faviconUrl = canvas.toDataURL('image/png');
+            
+            const existingFavicon = document.querySelector('link[rel="icon"]');
+            const existingShortcut = document.querySelector('link[rel="shortcut icon"]');
+            
+            if (existingFavicon) {
+                existingFavicon.href = faviconUrl;
+            } else {
+                const link = document.createElement('link');
+                link.rel = 'icon';
+                link.type = 'image/png';
+                link.href = faviconUrl;
+                document.head.appendChild(link);
+            }
+            
+            if (existingShortcut) {
+                existingShortcut.href = faviconUrl;
+            } else {
+                const linkShort = document.createElement('link');
+                linkShort.rel = 'shortcut icon';
+                linkShort.type = 'image/png';
+                linkShort.href = faviconUrl;
+                document.head.appendChild(linkShort);
+            }
+        }
+        
+        // Helper para roundRect
+        if (!CanvasRenderingContext2D.prototype.roundRect) {
+            CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+                if (w < 2 * r) r = w / 2;
+                if (h < 2 * r) r = h / 2;
+                this.moveTo(x+r, y);
+                this.lineTo(x+w-r, y);
+                this.quadraticCurveTo(x+w, y, x+w, y+r);
+                this.lineTo(x+w, y+h-r);
+                this.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+                this.lineTo(x+r, y+h);
+                this.quadraticCurveTo(x, y+h, x, y+h-r);
+                this.lineTo(x, y+r);
+                this.quadraticCurveTo(x, y, x+r, y);
+                return this;
+            };
+        }
+        
+        // Gerar favicon quando a página carregar
+        window.addEventListener('DOMContentLoaded', () => {
+            generateFavicon();
+        });
     </script>
+    
     <style>
         * {
             margin: 0;
@@ -51,7 +152,7 @@
             padding: 2rem;
         }
 
-        /* ========== BARRA VERMELHA MAIS LARGURA E RESPONSIVA ========== */
+        /* ========== BARRA VERMELHA RESPONSIVA ========== */
         .top-bar {
             background: linear-gradient(95deg, #b2221c, #d43f1f);
             color: white;
@@ -59,177 +160,144 @@
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 1.5rem;
-            padding: 1.2rem 3rem;
-            box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+            gap: 1rem;
+            padding: 1rem 2rem;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.1);
             width: 100%;
-            transition: all 0.2s;
         }
 
         .logo-area {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
             flex-wrap: wrap;
         }
 
-        /* LOGO COM TAMANHO FIXO 350px e COR ORIGINAL */
         .logo-area img {
-            width: 350px;
-            height: 350px;
-            max-width: 100%;
+            height: 55px;
+            width: auto;
+            max-height: 65px;
             object-fit: contain;
-            display: block;
-            filter: none;
-            background: transparent;
+            filter: brightness(0) invert(1);
         }
 
-        .badge-offline {
+        .logo-area span {
             background: rgba(255,255,255,0.2);
             backdrop-filter: blur(4px);
             color: white;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 600;
-            padding: 0.4rem 1.2rem;
+            padding: 0.3rem 1rem;
             border-radius: 40px;
-            letter-spacing: 0.3px;
-            white-space: nowrap;
         }
 
         .trust-badge {
             display: flex;
-            gap: 1.8rem;
+            gap: 1.5rem;
             color: white;
             font-weight: 600;
-            background: rgba(0,0,0,0.15);
-            padding: 0.6rem 2rem;
+            background: rgba(0,0,0,0.1);
+            padding: 0.5rem 1.5rem;
             border-radius: 60px;
             flex-wrap: wrap;
             justify-content: center;
-            backdrop-filter: blur(2px);
         }
 
         .trust-badge i {
-            margin-right: 8px;
+            margin-right: 6px;
             color: #ffd966;
         }
 
-        /* Anúncios responsivos - Melhor posicionamento */
+        /* Anúncio responsivo centralizado */
         .ad-container {
             text-align: center;
-            margin: 1.8rem auto;
-            background: rgba(255,255,240,0.4);
-            border-radius: 24px;
+            margin: 1.5rem auto;
+            background: rgba(255,255,240,0.3);
+            border-radius: 20px;
             padding: 0.8rem;
             max-width: 100%;
             overflow-x: auto;
-            min-height: 90px;
         }
         
-        .ad-container-top {
-            margin-top: 0;
-        }
-        
-        .ad-container-bottom {
-            margin-bottom: 0;
-        }
-        
-        .ad-in-card {
-            margin: 1rem 0;
-            padding: 0.5rem;
-            background: #fafbfd;
-            border-radius: 16px;
-            border: 1px solid #eef2f8;
-        }
-        
-        .ad-label {
-            font-size: 0.7rem;
-            color: #8ba0ae;
-            text-align: center;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .ad-container ins, .ad-in-card ins {
+        .ad-container ins {
             display: block;
             margin: 0 auto;
         }
 
-        /* grid dos cards */
+        /* grid dos cards - centralizado e responsivo */
         .tool-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
-            margin: 2.5rem 0;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.8rem;
+            margin: 2rem 0;
         }
 
         .card {
             background: #ffffff;
-            border-radius: 2rem;
-            padding: 1.8rem;
-            box-shadow: 0 12px 28px -10px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
+            border-radius: 1.8rem;
+            padding: 1.6rem;
+            box-shadow: 0 10px 25px -8px rgba(0, 0, 0, 0.08);
+            transition: all 0.25s ease;
             display: flex;
             flex-direction: column;
-            border: 1px solid rgba(28, 110, 143, 0.12);
+            border: 1px solid rgba(28, 110, 143, 0.15);
         }
 
         .card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 24px 36px -14px rgba(28, 110, 143, 0.2);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 30px -12px rgba(28, 110, 143, 0.2);
             border-color: rgba(28, 110, 143, 0.3);
         }
 
         .card-header {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
             margin-bottom: 1rem;
         }
 
         .card-header .icon {
             background: linear-gradient(135deg, #f0f5fa, #e6edf4);
-            width: 54px;
-            height: 54px;
-            border-radius: 24px;
+            width: 50px;
+            height: 50px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #1C6E8F;
-            font-size: 1.7rem;
+            font-size: 1.6rem;
         }
 
         .card-header h3 {
-            font-size: 1.4rem;
+            font-size: 1.35rem;
             font-weight: 700;
             color: #1a3b4e;
         }
 
         .card-desc {
             color: #4a6f89;
-            font-size: 0.9rem;
-            line-height: 1.45;
-            margin-bottom: 1.6rem;
-            padding-left: 0.8rem;
+            font-size: 0.88rem;
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+            padding-left: 0.6rem;
             border-left: 3px solid #F3B33D;
         }
 
         .file-zone {
             background: #f8fafd;
-            border-radius: 1.6rem;
-            padding: 0.6rem 1rem;
-            margin-bottom: 1.2rem;
+            border-radius: 1.5rem;
+            padding: 0.5rem 0.8rem 0.5rem 1rem;
+            margin-bottom: 1rem;
             border: 1px solid #e0ecf5;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
         .file-zone i {
             color: #E68A2E;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
         .file-zone input[type="file"] {
@@ -244,46 +312,40 @@
         .file-zone input[type="file"]::file-selector-button {
             background: white;
             border: 1px solid #cbdde9;
-            padding: 0.45rem 1.2rem;
-            border-radius: 40px;
-            font-weight: 600;
+            padding: 0.4rem 1rem;
+            border-radius: 30px;
+            font-weight: 500;
             color: #1C6E8F;
             cursor: pointer;
             margin-right: 0.8rem;
-            transition: 0.2s;
-        }
-
-        .file-zone input[type="file"]::file-selector-button:hover {
-            background: #eef3fc;
         }
 
         .extra-control {
             background: #f9fdfe;
-            border-radius: 1.3rem;
-            padding: 0.7rem 1rem;
-            margin: 0.6rem 0 1.2rem;
+            border-radius: 1.2rem;
+            padding: 0.6rem 0.8rem;
+            margin: 0.5rem 0 1rem;
             border: 1px solid #e2eef5;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
         .extra-control input, .extra-control select {
             background: white;
             border: 1px solid #cbdde9;
-            border-radius: 40px;
-            padding: 0.45rem 1rem;
+            border-radius: 30px;
+            padding: 0.4rem 0.8rem;
             font-size: 0.85rem;
-            font-weight: 500;
         }
 
         .radio-group {
             display: flex;
-            gap: 1rem;
+            gap: 0.8rem;
             flex-wrap: wrap;
             background: white;
-            padding: 0.3rem 1rem;
+            padding: 0.3rem 0.8rem;
             border-radius: 50px;
         }
 
@@ -297,14 +359,14 @@
             background: linear-gradient(105deg, #2b6b8f, #1f5372);
             color: white;
             border: none;
-            padding: 0.85rem 1.3rem;
-            border-radius: 60px;
+            padding: 0.8rem 1.2rem;
+            border-radius: 50px;
             font-weight: 700;
             font-size: 0.95rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             cursor: pointer;
             transition: all 0.2s;
             margin-top: auto;
@@ -312,17 +374,16 @@
 
         .btn-primary:hover {
             background: linear-gradient(105deg, #1f7a9e, #1a4865);
-            transform: scale(1.01);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            transform: scale(1.02);
         }
 
         .status {
-            margin-top: 1rem;
+            margin-top: 0.8rem;
             font-size: 0.75rem;
             font-weight: 500;
             background: #EFF6FF;
-            padding: 0.5rem 1rem;
-            border-radius: 30px;
+            padding: 0.4rem 0.8rem;
+            border-radius: 25px;
             text-align: center;
             color: #1f5e7e;
             border-left: 3px solid #F3B33D;
@@ -338,27 +399,26 @@
             flex-direction: column;
             align-items: center;
             background: #fef9ef;
-            border-radius: 1.8rem;
-            padding: 1.2rem;
-            margin: 0.8rem 0;
+            border-radius: 1.5rem;
+            padding: 1rem;
+            margin: 0.5rem 0;
         }
 
         #donationQrCode {
             margin: 0 auto;
             background: white;
-            padding: 0.6rem;
-            border-radius: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 0.5rem;
+            border-radius: 16px;
         }
 
         .pix-key-area {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             align-items: center;
             background: white;
-            padding: 0.5rem 1.2rem;
-            border-radius: 60px;
-            margin-top: 1rem;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            margin-top: 0.8rem;
             flex-wrap: wrap;
             justify-content: center;
         }
@@ -367,106 +427,84 @@
             font-family: monospace;
             font-weight: 700;
             background: #eef3fc;
-            padding: 0.35rem 1rem;
-            border-radius: 40px;
+            padding: 0.3rem 0.8rem;
+            border-radius: 30px;
             color: #1C6E8F;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .btn-outline-copy {
             background: transparent;
             border: 1px solid #F3B33D;
-            padding: 0.35rem 1rem;
-            border-radius: 40px;
+            padding: 0.3rem 0.8rem;
+            border-radius: 30px;
             font-weight: 600;
             color: #c2761a;
             cursor: pointer;
             font-size: 0.8rem;
-            transition: 0.2s;
-        }
-
-        .btn-outline-copy:hover {
-            background: #F3B33D20;
         }
 
         footer {
             text-align: center;
-            margin-top: 3.5rem;
+            margin-top: 3rem;
             color: #5f7f97;
             font-size: 0.8rem;
             border-top: 1px solid #d0e2ef;
-            padding-top: 2rem;
+            padding-top: 1.8rem;
         }
 
         .footer-badge {
             background: #e2ebf3;
-            border-radius: 60px;
-            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            padding: 0.3rem 1rem;
             display: inline-block;
-            margin-bottom: 1rem;
-            font-weight: 500;
+            margin-bottom: 0.8rem;
         }
 
-        /* RESPONSIVIDADE */
-        @media (max-width: 1024px) {
-            .top-bar {
-                padding: 1rem 2rem;
-                gap: 1.2rem;
-            }
-            .logo-area img {
-                width: 280px;
-                height: 280px;
-            }
-        }
-
+        /* RESPONSIVIDADE COMPLETA */
         @media (max-width: 768px) {
             .container {
-                padding: 1.2rem;
+                padding: 1rem;
             }
             .top-bar {
                 flex-direction: column;
                 text-align: center;
-                padding: 1.2rem 1.5rem;
-                gap: 1rem;
+                padding: 1rem;
             }
             .logo-area {
                 justify-content: center;
-                flex-direction: column;
-            }
-            .logo-area img {
-                width: 220px;
-                height: 220px;
-            }
-            .badge-offline {
-                white-space: normal;
-                font-size: 0.75rem;
             }
             .trust-badge {
-                gap: 1rem;
-                padding: 0.5rem 1.2rem;
-                font-size: 0.85rem;
-                width: 100%;
-                justify-content: center;
+                gap: 0.8rem;
+                padding: 0.4rem 1rem;
             }
             .tool-grid {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
+                gap: 1.2rem;
             }
             .card {
-                padding: 1.4rem;
+                padding: 1.2rem;
             }
             .card-header h3 {
-                font-size: 1.25rem;
+                font-size: 1.2rem;
+            }
+            .btn-primary {
+                padding: 0.7rem 1rem;
+                font-size: 0.85rem;
             }
         }
 
         @media (max-width: 480px) {
             .logo-area img {
-                width: 180px;
-                height: 180px;
+                height: 40px;
             }
             .trust-badge span {
                 font-size: 0.7rem;
+            }
+            .card-header .icon {
+                width: 42px;
+                height: 42px;
+                font-size: 1.3rem;
             }
         }
     </style>
@@ -475,21 +513,20 @@
     <!-- BARRA VERMELHA COM LOGO -->
     <div class="top-bar">
         <div class="logo-area">
-            <img src="conversor_de_arqui.logo.png" alt="Conversor de Arquivos - ConvTools" onerror="this.style.display='none'">
-            <span class="badge-offline"><i class="fas fa-shield-alt"></i> Converta seus arquivos sem dor de cabeça 100% offline & seguro</span>
+            <i class="fas fa-tools" style="font-size: 32px; color: white;"></i>
+            <span style="font-weight: 800; font-size: 1.4rem;">ConvTools</span>
+            <span>100% offline & seguro</span>
         </div>
         <div class="trust-badge">
-            <span><i class="fas fa-cloud-upload-alt"></i> sem upload</span>
-            <span><i class="fas fa-microchip"></i> conversão local</span>
+            <span><i class="fas fa-shield-alt"></i> sem upload</span>
+            <span><i class="fas fa-bolt"></i> conversão local</span>
             <span><i class="fas fa-infinity"></i> ilimitado</span>
-            <span><i class="fas fa-lock"></i> privacidade total</span>
         </div>
     </div>
 
     <div class="container">
-        <!-- ANÚNCIO TOPO - Primeiro anúncio da página -->
-        <div class="ad-container ad-container-top">
-            <div class="ad-label">Publicidade</div>
+        <!-- Google AdSense - Seu código -->
+        <div class="ad-container">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-6101697624775208"
@@ -513,25 +550,6 @@
 
             <!-- PDF → DOC -->
             <div class="card"><div class="card-header"><div class="icon"><i class="fas fa-file-word"></i></div><h3>PDF → DOC</h3></div><div class="card-desc">Extrai texto e salva como .doc simples.</div><div class="file-zone"><i class="fas fa-file-pdf"></i><input type="file" id="pdfToDocInput" accept=".pdf" /></div><button class="btn-primary" onclick="pdfToDoc()"><i class="fas fa-file-export"></i> Converter</button><div class="status" id="pdfToDocStatus"></div></div>
-
-            <!-- Anúncio dentro do grid - posição estratégica -->
-            <div class="card" style="background: linear-gradient(135deg, #fafcff, #ffffff);">
-                <div class="ad-in-card">
-                    <div class="ad-label">Anúncio</div>
-                    <ins class="adsbygoogle"
-                         style="display:block"
-                         data-ad-client="ca-pub-6101697624775208"
-                         data-ad-slot="7644820389"
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
-                </div>
-                <div class="card-header"><div class="icon"><i class="fas fa-star"></i></div><h3>Suporte ao Projeto</h3></div>
-                <div class="card-desc">Mantenha as ferramentas gratuitas! Compartilhe com amigos.</div>
-                <div style="height: 60px;"></div>
-            </div>
 
             <!-- DOC → PDF -->
             <div class="card"><div class="card-header"><div class="icon"><i class="fas fa-file-pdf"></i></div><h3>DOC → PDF</h3></div><div class="card-desc">Converte .docx (com formatação) ou .doc.</div><div class="file-zone"><i class="fas fa-file-word"></i><input type="file" id="docToPdfInput" accept=".docx,.doc" /></div><button class="btn-primary" onclick="docToPdf()"><i class="fas fa-file-pdf"></i> Converter</button><div class="status" id="docToPdfStatus"></div></div>
@@ -565,25 +583,9 @@
                 </div>
             </div>
         </div>
-        
-        <!-- ANÚNCIO RODAPÉ - Segundo anúncio para aumentar receita -->
-        <div class="ad-container ad-container-bottom">
-            <div class="ad-label">Publicidade</div>
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-6101697624775208"
-                 data-ad-slot="7644820389"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>
-        
         <footer>
             <span class="footer-badge"><i class="fas fa-microchip"></i> 100% local · seus arquivos nunca deixam seu dispositivo</span>
             <p style="margin-top:0.8rem;">Conversões com pdf-lib, pdf.js, SheetJS, Mammoth, MyMemory API. Nenhum dado armazenado.</p>
-            <p style="margin-top:0.5rem; font-size:0.7rem;"><i class="fas fa-ad"></i> Anúncios ajudam a manter o projeto gratuito</p>
         </footer>
     </div>
 
@@ -612,7 +614,7 @@
             });
         });
 
-        // ========== FUNÇÕES DAS FERRAMENTAS (mantidas intactas) ==========
+        // ========== FUNÇÕES CORRIGIDAS ==========
         async function mergePDF() {
             const input = document.getElementById('mergeInput');
             const status = document.getElementById('mergeStatus');
@@ -748,7 +750,7 @@
                 }
             } catch(e) { status.innerText = '❌ Erro.'; console.error(e); }
         }
-        
+
         async function excelToPdf() {
             const input = document.getElementById('excelToPdfInput');
             const status = document.getElementById('excelToPdfStatus');
@@ -765,7 +767,7 @@
                 status.innerText = '✅ PDF criado.';
             } catch(e) { status.innerText = '❌ Erro.'; }
         }
-        
+
         async function jpgToPdf() {
             const input = document.getElementById('jpgToPdfInput');
             const status = document.getElementById('jpgToPdfStatus');
@@ -785,7 +787,7 @@
                 status.innerText = '✅ PDF gerado.';
             } catch(e) { status.innerText = '❌ Erro.'; }
         }
-        
+
         async function htmlToPdf() {
             const input = document.getElementById('htmlToPdfInput');
             const status = document.getElementById('htmlToPdfStatus');
@@ -799,7 +801,7 @@
                 status.innerText = '✅ Convertido.';
             } catch(e) { status.innerText = '❌ Erro.'; }
         }
-        
+
         async function numberPdf() {
             const input = document.getElementById('numberPdfInput');
             const status = document.getElementById('numberPdfStatus');
@@ -826,7 +828,7 @@
                 status.innerText = '✅ Números adicionados.';
             } catch(e) { status.innerText = '❌ Erro.'; }
         }
-        
+
         async function organizePdf() {
             const input = document.getElementById('organizeInput');
             const orderStr = document.getElementById('organizeOrder').value.trim();
@@ -848,7 +850,7 @@
                 status.innerText = '✅ PDF reordenado.';
             } catch(e) { status.innerText = '❌ Erro.'; }
         }
-        
+
         async function translatePdf() {
             const input = document.getElementById('translatePdfInput');
             const sourceLang = document.getElementById('sourceLang').value;
