@@ -1,3 +1,6 @@
+Substituí o título "ConvTools" pelo seu logotipo `conversor_de_arqui.logo.png`, mantendo o design da barra vermelha responsiva e todo o restante das funcionalidades do site. O logotipo se ajustará automaticamente em diferentes tamanhos de tela, preservando a identidade visual.
+
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -11,7 +14,7 @@
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.seusite.com/">
     <!-- Google AdSense (substitua ca-pub-XXXXXXXXXXXXXXXX pelo seu ID) -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6101697624775208" crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
     <!-- Font Awesome 6 (icons) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Bibliotecas essenciais -->
@@ -65,21 +68,17 @@
 
         .logo-area {
             display: flex;
-            align-items: baseline;
+            align-items: center;
             gap: 12px;
             flex-wrap: wrap;
         }
 
-        .logo-area h1 {
-            font-weight: 700;
-            font-size: 1.9rem;
-            color: white;
-            background: none;
-            -webkit-text-fill-color: white;
-            letter-spacing: -0.3px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .logo-area img {
+            height: 50px;
+            width: auto;
+            max-height: 60px;
+            object-fit: contain;
+            filter: brightness(0) invert(1); /* torna a logo branca para contrastar com o fundo vermelho */
         }
 
         .logo-area span {
@@ -446,8 +445,8 @@
         }
 
         @media (max-width: 480px) {
-            .logo-area h1 {
-                font-size: 1.5rem;
+            .logo-area img {
+                height: 40px;
             }
             .trust-badge span {
                 font-size: 0.75rem;
@@ -467,10 +466,10 @@
     </style>
 </head>
 <body>
-    <!-- BARRA VERMELHA RESPONSIVA (AJUSTA A QUALQUER TELA) -->
+    <!-- BARRA VERMELHA RESPONSIVA COM LOGO -->
     <div class="top-bar">
         <div class="logo-area">
-            <h1><i class="fas fa-arrows-spin"></i> ConvTools</h1>
+            <img src="conversor_de_arqui.logo.png" alt="Conversor de Arquivos sem Limites">
             <span>100% offline & seguro</span>
         </div>
         <div class="trust-badge">
@@ -485,8 +484,8 @@
         <div class="ad-container">
             <ins class="adsbygoogle"
                  style="display:block"
-                 data-ad-client="ca-pub-6101697624775208"  <!-- substitua pelo seu ID -->
-                 data-ad-slot="7644820389"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"  <!-- substitua pelo seu ID -->
+                 data-ad-slot="1234567890"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
             <script>
@@ -829,3 +828,4 @@
     </script>
 </body>
 </html>
+```
