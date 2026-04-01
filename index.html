@@ -1,10 +1,53 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+    
 <head>
+     <link rel="stylesheet" href="estilo.css">
+    <style>
+  /* Container do cabeçalho */
+.header-content {
+  display: flex;
+  align-items: center;       /* alinha verticalmente */
+  justify-content: space-between; /* ou flex-start se quiser só a logo à esquerda */
+  padding: 1rem 2rem;
+  background-color: #f5f5f5; /* exemplo */
+}
+
+/* Link da logo */
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: 0.75rem;             /* espaçamento entre imagem e texto */
+}
+
+/* Imagem da logo */
+.logo-img {
+  height: 200px;             /* medida ideal para altura da imagem */
+  width: 200px;              /* mantém proporção */
+  max-height: 300%;         /* evita estourar o contêiner */
+}
+
+/* Texto da logo */
+.logo-text span {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.2;
+}
+</style>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Conversor Ágil - Ferramentas 100% Local</title>
-    <!-- Font Awesome 6 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <div class="container header-content">
+  <a href="#" class="logo">
+    <img src="conversor_de_arqui.logo.png" alt="Conversor de Arquivos sem Limites" class="logo-img">
+    <div class="logo-text">
+      <h1>Converta seus arquivos sem armazenar em servidores</h1>
+    </div>
+  </a>
+  <!-- outros elementos do cabeçalho, se houver -->
+</div>
+       <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Bibliotecas robustas -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
@@ -12,12 +55,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mammoth@1.4.19/mammoth.browser.min.js"></script>
     <script src="https://cdn.sheetjs.com/xlsx-0.19.2/package/dist/xlsx.full.min.js"></script>
+    <!-- pdf.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <!-- html2canvas para conversão DOC → PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <!-- Biblioteca para gerar QR Code dinamicamente -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <!-- JSZip para compactação -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
     </script>
@@ -45,42 +86,35 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
             flex-wrap: wrap;
             gap: 1rem;
         }
 
-        .logo-area {
-            display: flex;
-            align-items: baseline;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-        .logo-area h1 {
-            font-weight: 700;
-            font-size: 1.9rem;
-            background: linear-gradient(135deg, #0a2942, #1f6392);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .logo-area span {
-            background: #e9f0f8;
-            padding: 0.2rem 1rem;
-            border-radius: 40px;
-            font-size: 0.8rem;
+        .logo h1 {
             font-weight: 600;
-            color: #1d4a7c;
+            font-size: 2rem;
+            background: linear-gradient(145deg, #0a2942, #1d4a7c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            background: #0a2942;
+            color: white;
+            font-size: 0.8rem;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            margin-left: 0.75rem;
+            font-weight: 500;
+            -webkit-text-fill-color: white;
         }
 
         .trust-badge {
             display: flex;
             gap: 1.8rem;
             color: #3e5e7e;
-            background: #ffffffcc;
-            backdrop-filter: blur(4px);
-            padding: 0.4rem 1rem;
-            border-radius: 60px;
         }
 
         .trust-badge i {
@@ -91,20 +125,21 @@
         /* grid de cards */
         .tool-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
             gap: 2rem;
-            margin: 2rem 0;
+            margin: 2.5rem 0;
         }
 
         .card {
             background: #ffffff;
             border-radius: 32px;
             padding: 1.8rem 1.8rem 2rem;
-            box-shadow: 0 20px 35px -8px rgba(0,20,45,0.12), 0 0 0 1px rgba(0,0,0,0.02);
+            box-shadow: 0 20px 35px -8px rgba(0,20,45,0.15), 0 0 0 1px rgba(0,0,0,0.02);
             transition: transform 0.2s ease, box-shadow 0.2s;
             display: flex;
             flex-direction: column;
-            border: 1px solid rgba(255,255,255,0.6);
+            border: 1px solid rgba(255,255,255,0.5);
+            backdrop-filter: blur(2px);
         }
 
         .card:hover {
@@ -231,6 +266,11 @@
             border: 1px solid #cbd6e4;
         }
 
+        .radio-group label {
+            font-weight: 400;
+            color: #2d4c73;
+        }
+
         .btn-primary {
             background: #0b1e33;
             color: white;
@@ -254,19 +294,8 @@
             transform: scale(1.02);
         }
 
-        .btn-outline-copy {
-            background: #eef3fc;
-            border: 1px solid #cbddee;
-            color: #1d4a7c;
-            padding: 0.4rem 1rem;
-            border-radius: 40px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.1s;
-        }
-        .btn-outline-copy:hover {
-            background: #dce8f2;
+        .btn-primary i {
+            font-size: 1.2rem;
         }
 
         .status {
@@ -280,54 +309,6 @@
             text-align: center;
         }
 
-        /* Card de doação especial */
-        .donation-card {
-            background: linear-gradient(145deg, #fff9ef, #ffffff);
-            border: 1px solid #ffe6b3;
-        }
-        .donation-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 0.75rem;
-        }
-        .donation-header .icon {
-            background: #fde8cd;
-            color: #c27e2e;
-        }
-        .pix-qr-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 1rem 0 0.8rem;
-        }
-        #donationQrCode {
-            background: white;
-            padding: 8px;
-            border-radius: 24px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-            display: inline-block;
-            width: 140px;
-            height: 140px;
-        }
-        .pix-key-area {
-            background: #f7f9fc;
-            border-radius: 60px;
-            padding: 0.4rem 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 12px;
-            border: 1px solid #e2eaf1;
-        }
-        .pix-key-text {
-            font-family: monospace;
-            font-size: 0.85rem;
-            color: #194a6a;
-            word-break: break-all;
-        }
         footer {
             text-align: center;
             margin-top: 4rem;
@@ -336,6 +317,7 @@
             border-top: 1px solid #d6e2ee;
             padding-top: 2rem;
         }
+
         .footer-badge {
             display: inline-block;
             background: #e2eaf3;
@@ -343,14 +325,11 @@
             padding: 0.3rem 1.2rem;
             margin: 1rem 0 0;
         }
+
         hr {
             border: 0;
             height: 1px;
             background: linear-gradient(90deg, transparent, #b7ccde, transparent);
-        }
-        @media (max-width: 680px) {
-            body { padding: 1rem; }
-            .tool-grid { gap: 1.2rem; }
         }
     </style>
 </head>
