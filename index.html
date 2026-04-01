@@ -465,7 +465,7 @@ function escapeHtml(str) {
         return m;
     });
 }
-    // DOC → PDF (com validação robusta e suporte apenas a .docx)
+   // DOC → PDF (com validação robusta e suporte apenas a .docx)
 document.getElementById('btnDocToPdf').onclick = () => withLoading('btnDocToPdf', 'docToPdfStatus', async () => {
     const input = document.getElementById('docToPdfInput');
     if (!input.files.length) throw new Error('Selecione um arquivo .docx');
