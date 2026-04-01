@@ -10,8 +10,10 @@
     <meta name="author" content="ConvTools">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.seusite.com/">
-    <!-- Google AdSense -->
+    
+    <!-- Google AdSense - Código correto com seu ID de publisher -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6101697624775208" crossorigin="anonymous"></script>
+    
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Bibliotecas essenciais -->
@@ -71,14 +73,14 @@
             flex-wrap: wrap;
         }
 
-        /* LOGO COM TAMANHO FIXO 350px e COR ORIGINAL (sem filtro invert) */
+        /* LOGO COM TAMANHO FIXO 350px e COR ORIGINAL */
         .logo-area img {
             width: 350px;
             height: 350px;
             max-width: 100%;
             object-fit: contain;
             display: block;
-            filter: none;           /* COR ORIGINAL */
+            filter: none;
             background: transparent;
         }
 
@@ -112,7 +114,7 @@
             color: #ffd966;
         }
 
-        /* Anúncio responsivo */
+        /* Anúncios responsivos - Melhor posicionamento */
         .ad-container {
             text-align: center;
             margin: 1.8rem auto;
@@ -121,14 +123,40 @@
             padding: 0.8rem;
             max-width: 100%;
             overflow-x: auto;
+            min-height: 90px;
         }
         
-        .ad-container ins {
+        .ad-container-top {
+            margin-top: 0;
+        }
+        
+        .ad-container-bottom {
+            margin-bottom: 0;
+        }
+        
+        .ad-in-card {
+            margin: 1rem 0;
+            padding: 0.5rem;
+            background: #fafbfd;
+            border-radius: 16px;
+            border: 1px solid #eef2f8;
+        }
+        
+        .ad-label {
+            font-size: 0.7rem;
+            color: #8ba0ae;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .ad-container ins, .ad-in-card ins {
             display: block;
             margin: 0 auto;
         }
 
-        /* grid dos cards - layout profissional */
+        /* grid dos cards */
         .tool-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -379,7 +407,7 @@
             font-weight: 500;
         }
 
-        /* ========== RESPONSIVIDADE PREMIUM ========== */
+        /* RESPONSIVIDADE */
         @media (max-width: 1024px) {
             .top-bar {
                 padding: 1rem 2rem;
@@ -430,15 +458,6 @@
             .card-header h3 {
                 font-size: 1.25rem;
             }
-            .card-header .icon {
-                width: 48px;
-                height: 48px;
-                font-size: 1.5rem;
-            }
-            .btn-primary {
-                padding: 0.75rem 1rem;
-                font-size: 0.85rem;
-            }
         }
 
         @media (max-width: 480px) {
@@ -449,25 +468,13 @@
             .trust-badge span {
                 font-size: 0.7rem;
             }
-            .card-header .icon {
-                width: 42px;
-                height: 42px;
-                font-size: 1.3rem;
-            }
-            .extra-control select, .extra-control input {
-                font-size: 0.75rem;
-            }
-            .pix-key-text {
-                font-size: 0.7rem;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- BARRA VERMELHA MAIS LARGURA COM LOGO 350px COR ORIGINAL -->
+    <!-- BARRA VERMELHA COM LOGO -->
     <div class="top-bar">
         <div class="logo-area">
-            <!-- Logo com largura e altura 350px e COR ORIGINAL (sem invert) -->
             <img src="conversor_de_arqui.logo.png" alt="Conversor de Arquivos - ConvTools" onerror="this.style.display='none'">
             <span class="badge-offline"><i class="fas fa-shield-alt"></i> 100% offline & seguro</span>
         </div>
@@ -480,8 +487,9 @@
     </div>
 
     <div class="container">
-        <!-- Google AdSense -->
-        <div class="ad-container">
+        <!-- ANÚNCIO TOPO - Primeiro anúncio da página -->
+        <div class="ad-container ad-container-top">
+            <div class="ad-label">Publicidade</div>
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-6101697624775208"
@@ -505,6 +513,25 @@
 
             <!-- PDF → DOC -->
             <div class="card"><div class="card-header"><div class="icon"><i class="fas fa-file-word"></i></div><h3>PDF → DOC</h3></div><div class="card-desc">Extrai texto e salva como .doc simples.</div><div class="file-zone"><i class="fas fa-file-pdf"></i><input type="file" id="pdfToDocInput" accept=".pdf" /></div><button class="btn-primary" onclick="pdfToDoc()"><i class="fas fa-file-export"></i> Converter</button><div class="status" id="pdfToDocStatus"></div></div>
+
+            <!-- Anúncio dentro do grid - posição estratégica -->
+            <div class="card" style="background: linear-gradient(135deg, #fafcff, #ffffff);">
+                <div class="ad-in-card">
+                    <div class="ad-label">Anúncio</div>
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-6101697624775208"
+                         data-ad-slot="7644820389"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+                <div class="card-header"><div class="icon"><i class="fas fa-star"></i></div><h3>Suporte ao Projeto</h3></div>
+                <div class="card-desc">Mantenha as ferramentas gratuitas! Compartilhe com amigos.</div>
+                <div style="height: 60px;"></div>
+            </div>
 
             <!-- DOC → PDF -->
             <div class="card"><div class="card-header"><div class="icon"><i class="fas fa-file-pdf"></i></div><h3>DOC → PDF</h3></div><div class="card-desc">Converte .docx (com formatação) ou .doc.</div><div class="file-zone"><i class="fas fa-file-word"></i><input type="file" id="docToPdfInput" accept=".docx,.doc" /></div><button class="btn-primary" onclick="docToPdf()"><i class="fas fa-file-pdf"></i> Converter</button><div class="status" id="docToPdfStatus"></div></div>
@@ -538,9 +565,25 @@
                 </div>
             </div>
         </div>
+        
+        <!-- ANÚNCIO RODAPÉ - Segundo anúncio para aumentar receita -->
+        <div class="ad-container ad-container-bottom">
+            <div class="ad-label">Publicidade</div>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-6101697624775208"
+                 data-ad-slot="7644820389"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+        
         <footer>
             <span class="footer-badge"><i class="fas fa-microchip"></i> 100% local · seus arquivos nunca deixam seu dispositivo</span>
             <p style="margin-top:0.8rem;">Conversões com pdf-lib, pdf.js, SheetJS, Mammoth, MyMemory API. Nenhum dado armazenado.</p>
+            <p style="margin-top:0.5rem; font-size:0.7rem;"><i class="fas fa-ad"></i> Anúncios ajudam a manter o projeto gratuito</p>
         </footer>
     </div>
 
@@ -569,7 +612,7 @@
             });
         });
 
-        // ========== FUNÇÕES CORRIGIDAS (MESMA LÓGICA PROFISSIONAL) ==========
+        // ========== FUNÇÕES DAS FERRAMENTAS (mantidas intactas) ==========
         async function mergePDF() {
             const input = document.getElementById('mergeInput');
             const status = document.getElementById('mergeStatus');
@@ -669,7 +712,7 @@
             } catch(e) { status.innerText = '❌ Erro ao extrair texto.'; }
         }
 
-        async function docToPdf() { /* mantido igual funcionando */ 
+        async function docToPdf() {
             const input = document.getElementById('docToPdfInput');
             const status = document.getElementById('docToPdfStatus');
             if (!input.files.length) { status.innerText = '❌ Selecione .docx ou .doc.'; return; }
@@ -705,7 +748,8 @@
                 }
             } catch(e) { status.innerText = '❌ Erro.'; console.error(e); }
         }
-        async function excelToPdf() { /* existente */ 
+        
+        async function excelToPdf() {
             const input = document.getElementById('excelToPdfInput');
             const status = document.getElementById('excelToPdfStatus');
             if (!input.files.length) { status.innerText = '❌ Selecione uma planilha.'; return; }
@@ -721,7 +765,8 @@
                 status.innerText = '✅ PDF criado.';
             } catch(e) { status.innerText = '❌ Erro.'; }
         }
-        async function jpgToPdf() { /* existente */ 
+        
+        async function jpgToPdf() {
             const input = document.getElementById('jpgToPdfInput');
             const status = document.getElementById('jpgToPdfStatus');
             if (!input.files.length) { status.innerText = '❌ Selecione imagens.'; return; }
@@ -740,6 +785,7 @@
                 status.innerText = '✅ PDF gerado.';
             } catch(e) { status.innerText = '❌ Erro.'; }
         }
+        
         async function htmlToPdf() {
             const input = document.getElementById('htmlToPdfInput');
             const status = document.getElementById('htmlToPdfStatus');
@@ -753,6 +799,7 @@
                 status.innerText = '✅ Convertido.';
             } catch(e) { status.innerText = '❌ Erro.'; }
         }
+        
         async function numberPdf() {
             const input = document.getElementById('numberPdfInput');
             const status = document.getElementById('numberPdfStatus');
@@ -779,6 +826,7 @@
                 status.innerText = '✅ Números adicionados.';
             } catch(e) { status.innerText = '❌ Erro.'; }
         }
+        
         async function organizePdf() {
             const input = document.getElementById('organizeInput');
             const orderStr = document.getElementById('organizeOrder').value.trim();
@@ -800,6 +848,7 @@
                 status.innerText = '✅ PDF reordenado.';
             } catch(e) { status.innerText = '❌ Erro.'; }
         }
+        
         async function translatePdf() {
             const input = document.getElementById('translatePdfInput');
             const sourceLang = document.getElementById('sourceLang').value;
