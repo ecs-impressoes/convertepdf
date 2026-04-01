@@ -1,3 +1,6 @@
+Ajustei a barra superior com uma paleta de vermelhos profissionais e elegantes, mantendo a identidade visual e a legibilidade. Os textos “ConvTools”, “100% offline & seguro”, “sem upload”, “conversão local” e “ilimitado” agora exibem tons de vermelho que remetem a confiança e destaque sem agressividade.
+
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -64,15 +67,15 @@
         .logo-area h1 {
             font-weight: 700;
             font-size: 1.9rem;
-            background: linear-gradient(120deg, #1C6E8F, #2A4D6E);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            /* Cor vermelha profissional e elegante */
+            color: #c23b22;
+            background: none;
+            -webkit-text-fill-color: #c23b22;
             letter-spacing: -0.3px;
         }
 
         .logo-area span {
-            background: #1C6E8F;
+            background: #c23b22;
             color: white;
             font-size: 0.75rem;
             font-weight: 600;
@@ -84,8 +87,8 @@
         .trust-badge {
             display: flex;
             gap: 1.8rem;
-            color: #2c5a74;
-            font-weight: 500;
+            color: #c23b22;  /* vermelho principal */
+            font-weight: 600;
             background: #ffffffcc;
             padding: 0.5rem 1.4rem;
             border-radius: 60px;
@@ -94,7 +97,7 @@
 
         .trust-badge i {
             margin-right: 6px;
-            color: #E68A2E;
+            color: #c23b22;  /* ícones também em vermelho */
         }
 
         /* grid dos cards — envolvente e moderno */
@@ -374,7 +377,7 @@
 <div class="container">
     <div class="top-bar">
         <div class="logo-area">
-            <h1><i class="fas fa-arrows-spin" style="background: none; -webkit-text-fill-color: #1C6E8F;"></i> ConvTools</h1>
+            <h1><i class="fas fa-arrows-spin" style="color: #c23b22; background: none;"></i> ConvTools</h1>
             <span>100% offline & seguro</span>
         </div>
         <div class="trust-badge">
@@ -719,3 +722,4 @@
 </script>
 </body>
 </html>
+```
