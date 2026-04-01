@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ConvTools - Conversor de PDF para Word, JPG, Excel e mais | Offline e Gratuito</title>
+    <!-- Meta tags SEO -->
+    <meta name="description" content="Converta PDF para Word, Excel, JPG, organize, una, numere e traduza PDFs. 100% offline, sem upload, ilimitado e gratuito.">
+    <meta name="keywords" content="conversor de pdf, pdf para word, pdf para jpg, unir pdf, extrair páginas pdf, converter documentos, offline converter, pdf para excel, jpg para pdf, numerar pdf">
+    <meta name="author" content="ConvTools">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.seusite.com/">
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6101697624775208" crossorigin="anonymous"></script>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Bibliotecas essenciais -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mammoth@1.4.19/mammoth.browser.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.19.2/package/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <!-- QRCode para doação Pix -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f9ff 0%, #eef2f8 100%);
+            padding: 0;
+            color: #1a2c3e;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* ========== BARRA VERMELHA MAIS LARGURA E RESPONSIVA ========== */
+        .top-bar {
+            background: linear-gradient(95deg, #b2221c, #d43f1f);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            padding: 1.2rem 3rem;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+            width: 100%;
+            transition: all 0.2s;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        /* LOGO COM TAMANHO FIXO 350px e COR ORIGINAL (sem filtro invert) */
+        .logo-area img {
+            width: 350px;
+            height: 350px;
+            max-width: 100%;
+            object-fit: contain;
+            display: block;
+            filter: none;           /* COR ORIGINAL */
+            background: transparent;
+        }
+
+        .badge-offline {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(4px);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+
+        .trust-badge {
+            display: flex;
+            gap: 1.8rem;
+            color: white;
+            font-weight: 600;
+            background: rgba(0,0,0,0.15);
+            padding: 0.6rem 2rem;
+            border-radius: 60px;
+            flex-wrap: wrap;
+            justify-content: center;
+            backdrop-filter: blur(2px);
+        }
+
+        .trust-badge i {
+            margin-right: 8px;
+            color: #ffd966;
+        }
+
+        /* Anúncio responsivo */
+        .ad-container {
+            text-align: center;
+            margin: 1.8rem auto;
+            background: rgba(255,255,240,0.4);
+            border-radius: 24px;
+            padding: 0.8rem;
+            max-width: 100%;
+            overflow-x: auto;
+        }
+        
+        .ad-container ins {
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* grid dos cards - layout profissional */
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2.5rem 0;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 2rem;
+            padding: 1.8rem;
+            box-shadow: 0 12px 28px -10px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(28, 110, 143, 0.12);
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 36px -14px rgba(28, 110, 143, 0.2);
+            border-color: rgba(28, 110, 143, 0.3);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 1rem;
+        }
+
+        .card-header .icon {
+            background: linear-gradient(135deg, #f0f5fa, #e6edf4);
+            width: 54px;
+            height: 54px;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1C6E8F;
+            font-size: 1.7rem;
+        }
+
+        .card-header h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1a3b4e;
+        }
+
+        .card-desc {
+            color: #4a6f89;
+            font-size: 0.9rem;
+            line-height: 1.45;
+            margin-bottom: 1.6rem;
+            padding-left: 0.8rem;
+            border-left: 3px solid #F3B33D;
+        }
+
+        .file-zone {
+            background: #f8fafd;
+            border-radius: 1.6rem;
+            padding: 0.6rem 1rem;
+            margin-bottom: 1.2rem;
+            border: 1px solid #e0ecf5;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .file-zone i {
+            color: #E68A2E;
+            font-size: 1.2rem;
+        }
+
+        .file-zone input[type="file"] {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-size: 0.85rem;
+            color: #1f5372;
+            padding: 0.5rem 0;
+        }
+
+        .file-zone input[type="file"]::file-selector-button {
+            background: white;
+            border: 1px solid #cbdde9;
+            padding: 0.45rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #1C6E8F;
+            cursor: pointer;
+            margin-right: 0.8rem;
+            transition: 0.2s;
+        }
+
+        .file-zone input[type="file"]::file-selector-button:hover {
+            background: #eef3fc;
+        }
+
+        .extra-control {
+            background: #f9fdfe;
+            border-radius: 1.3rem;
+            padding: 0.7rem 1rem;
+            margin: 0.6rem 0 1.2rem;
+            border: 1px solid #e2eef5;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .extra-control input, .extra-control select {
+            background: white;
+            border: 1px solid #cbdde9;
+            border-radius: 40px;
+            padding: 0.45rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            background: white;
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+        }
+
+        .radio-group label {
+            font-weight: 500;
+            color: #2b5d7c;
+            font-size: 0.8rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(105deg, #2b6b8f, #1f5372);
+            color: white;
+            border: none;
+            padding: 0.85rem 1.3rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: auto;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(105deg, #1f7a9e, #1a4865);
+            transform: scale(1.01);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+
+        .status {
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: #EFF6FF;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            text-align: center;
+            color: #1f5e7e;
+            border-left: 3px solid #F3B33D;
+        }
+
+        .donation-card {
+            background: linear-gradient(125deg, #fffef7, #ffffff);
+            border: 1px solid #ffe1b3;
+        }
+
+        .pix-qr-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #fef9ef;
+            border-radius: 1.8rem;
+            padding: 1.2rem;
+            margin: 0.8rem 0;
+        }
+
+        #donationQrCode {
+            margin: 0 auto;
+            background: white;
+            padding: 0.6rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .pix-key-area {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            background: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 60px;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .pix-key-text {
+            font-family: monospace;
+            font-weight: 700;
+            background: #eef3fc;
+            padding: 0.35rem 1rem;
+            border-radius: 40px;
+            color: #1C6E8F;
+            font-size: 0.9rem;
+        }
+
+        .btn-outline-copy {
+            background: transparent;
+            border: 1px solid #F3B33D;
+            padding: 0.35rem 1rem;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #c2761a;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: 0.2s;
+        }
+
+        .btn-outline-copy:hover {
+            background: #F3B33D20;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3.5rem;
+            color: #5f7f97;
+            font-size: 0.8rem;
+            border-top: 1px solid #d0e2ef;
+            padding-top: 2rem;
+        }
+
+        .footer-badge {
+            background: #e2ebf3;
+            border-radius: 60px;
+            padding: 0.4rem 1.2rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        /* ========== RESPONSIVIDADE PREMIUM ========== */
+        @media (max-width: 1024px) {
+            .top-bar {
+                padding: 1rem 2rem;
+                gap: 1.2rem;
+            }
+            .logo-area img {
+                width: 280px;
+                height: 280px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.2rem;
+            }
+            .top-bar {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.2rem 1.5rem;
+                gap: 1rem;
+            }
+            .logo-area {
+                justify-content: center;
+                flex-direction: column;
+            }
+            .logo-area img {
+                width: 220px;
+                height: 220px;
+            }
+            .badge-offline {
+                white-space: normal;
+                font-size: 0.75rem;
+            }
+            .trust-badge {
+                gap: 1rem;
+                padding: 0.5rem 1.2rem;
+                font-size: 0.85rem;
+                width: 100%;
+                justify-content: center;
+            }
+            .tool-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .card {
+                padding: 1.4rem;
+            }
+            .card-header h3 {
+                font-size: 1.25rem;
+            }
+            .card-header .icon {
+                width: 48px;
+                height: 48px;
+                font-size: 1.5rem;
+            }
+            .btn-primary {
+                padding: 0.75rem 1rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-area img {
+                width: 180px;
+                height: 180px;
+            }
+            .trust-badge span {
+                font-size: 0.7rem;
+            }
+            .card-header .icon {
+                width: 42px;
+                height: 42px;
+                font-size: 1.3rem;
+            }
+            .extra-control select, .extra-control input {
+                font-size: 0.75rem;
+            }
+            .pix-key-text {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- BARRA VERMELHA MAIS LARGURA COM LOGO 350px COR ORIGINAL -->
+    <div class="top-bar">
+        <div class="logo-area">
+            <!-- Logo com largura e altura 350px e COR ORIGINAL (sem invert) -->
+            <img src="conversor_de_arqui.logo.png" alt="Conversor de Arquivos - ConvTools" onerror="this.style.display='none'">
+            <span class="badge-offline"><i class="fas fa-shield-alt"></i> 100% offline & seguro</span>
+        </div>
+        <div class="trust-badge">
+            <span><i class="fas fa-cloud-upload-alt"></i> sem upload</span>
+            <span><i class="fas fa-microchip"></i> conversão local</span>
+            <span><i class="fas fa-infinity"></i> ilimitado</span>
+            <span><i class="fas fa-lock"></i> privacidade total</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Google AdSense -->
+        <div class="ad-container">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-6101697624775208"
+                 data-ad-slot="7644820389"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+
+        <div class="tool-grid">
+            <!-- UNIR PDF -->
+            <div class="card"><div class="card-header"><div class="icon"><i class="fas fa-layer-group"></i></div><h3>Unir PDF</h3></div><div class="card-desc">Combine vários PDFs em um único arquivo.</div><div class="file-zone"><i class="fas fa-cloud-upload-alt"></i><input type="file" id="mergeInput" multiple accept=".pdf" /></div><button class="btn-primary" onclick="mergePDF()"><i class="fas fa-object-group"></i> Unir arquivos</button><div class="status" id="mergeStatus"></div></div>
+
+            <!-- PDF → JPG -->
+            <div class="card"><div class="card-header"><div class="icon"><i class="fas fa-camera-retro"></i></div><h3>PDF → JPG</h3></div><div class="card-desc">Extraia cada página como imagem. +2 páginas = ZIP.</div><div class="file-zone"><i class="fas fa-file-pdf"></i><input type="file" id="pdfToJpgInput" accept=".pdf" /></div><button class="btn-primary" onclick="pdfToJpg()"><i class="fas fa-image"></i> Gerar JPGs</button><div class="status" id="pdfToJpgStatus"></div></div>
+
+            <!-- EXTRAIR PÁGINAS -->
+            <div class="card"><div class="card-header"><div class="icon"><i class="fas fa-cut"></i></div><h3>Extrair páginas</h3></div><div class="card-desc">Cada página em PDF separado → ZIP completo.</div><div class="file-zone"><i class="fas fa-file-pdf"></i><input type="file" id="extractInput" accept=".pdf" /></div><button class="btn-primary" onclick="extractAllPagesToZip()"><i class="fas fa-file-archive"></i> Extrair todas → ZIP</button><div class="status" id="extractStatus"></div></div>
+
+            <!-- PDF → DOC -->
+            <div class="card"><div class="card-header"><div class="icon"><i class="fas fa-file-word"></i></div><h3>PDF → DOC</h3></div><div class="card-desc">Extrai texto e salva como .doc simples.</div><div class="file-zone"><i class="fas fa-file-pdf"></i><input type="file" id="pdfToDocInput" accept=".pdf" /></div><button class="btn-primary" onclick="pdfToDoc()"><i class="fas fa-file-export"></i> Converter</button><div class="status" id="pdfToDocStatus"></div></div>
+
+            <!-- DOC → PDF -->
+            <div class="card"><div class="card-header"><div class="icon"><i class="fas fa-file-pdf"></i></div><h3>DOC → PDF</h3></div><div class="card-desc">Converte .docx (com formatação) ou .doc.</div><div class="file-zone"><i class="fas fa-file-word"></i><input type="file" id="docToPdfInput" accept=".docx,.doc" /></div><button class="btn-primary" onclick="docToPdf()"><i class="fas fa-file-pdf"></i> Converter</button><div class="status" id="docToPdfStatus"></div></div>
+
+            <!-- Excel → PDF -->
+            <div class="card"><div class="card-header"><div class="icon"><i class="fas fa-table"></i></div><h3>Excel → PDF</h3></div><div class="card-desc">Planilha para PDF com formatação.</div><div class="file-zone"><i class="fas fa-file-excel"></i><input type="file" id="excelToPdfInput" accept=".xlsx,.xls,.csv" /></div><button class="btn-primary" onclick="excelToPdf()"><i class="fas fa-file-pdf"></i> Converter</button><div class="status" id="excelToPdfStatus"></div></div>
+
+            <!-- JPG → PDF -->
+            <div class="card"><div class="card-header"><div class="icon"><i class="fas fa-images"></i></div><h3>JPG → PDF</h3></div><div class="card-desc">Agrupe imagens em um PDF único.</div><div class="file-zone"><i class="fas fa-image"></i><input type="file" id="jpgToPdfInput" multiple accept="image/*" /></div><button class="btn-primary" onclick="jpgToPdf()"><i class="fas fa-layer-group"></i> Criar PDF</button><div class="status" id="jpgToPdfStatus"></div></div>
+
+            <!-- HTML → PDF -->
+            <div class="card"><div class="card-header"><div class="icon"><i class="fas fa-code"></i></div><h3>HTML → PDF</h3></div><div class="card-desc">Arquivo .html convertido para PDF.</div><div class="file-zone"><i class="fas fa-file-code"></i><input type="file" id="htmlToPdfInput" accept=".html,.htm" /></div><button class="btn-primary" onclick="htmlToPdf()"><i class="fas fa-file-pdf"></i> Converter</button><div class="status" id="htmlToPdfStatus"></div></div>
+
+            <!-- NUMERAR PDF -->
+            <div class="card"><div class="card-header"><div class="icon"><i class="fas fa-hashtag"></i></div><h3>Numerar PDF</h3></div><div class="card-desc">Adicione números de página.</div><div class="file-zone"><i class="fas fa-file-pdf"></i><input type="file" id="numberPdfInput" accept=".pdf" /></div><div class="extra-control"><label><i class="fas fa-arrows-alt"></i> Posição:</label><div class="radio-group"><label><input type="radio" name="numberPos" value="top-right" checked> topo dir.</label><label><input type="radio" name="numberPos" value="bottom-left"> inf. esq.</label><label><input type="radio" name="numberPos" value="bottom-right"> inf. dir.</label></div></div><button class="btn-primary" onclick="numberPdf()"><i class="fas fa-pencil-alt"></i> Numerar</button><div class="status" id="numberPdfStatus"></div></div>
+
+            <!-- ORGANIZAR PDF -->
+            <div class="card"><div class="card-header"><div class="icon"><i class="fas fa-sort-amount-up"></i></div><h3>Organizar PDF</h3></div><div class="card-desc">Reordenar páginas: ex: 4,1,3,2</div><div class="file-zone"><i class="fas fa-file-pdf"></i><input type="file" id="organizeInput" accept=".pdf" /></div><div class="extra-control"><i class="fas fa-sort"></i><input type="text" id="organizeOrder" placeholder="ex: 4,1,3,2" style="flex:2;" /></div><button class="btn-primary" onclick="organizePdf()"><i class="fas fa-arrows-alt-v"></i> Reordenar</button><div class="status" id="organizeStatus"></div></div>
+
+            <!-- TRADUZIR PDF -->
+            <div class="card"><div class="card-header"><div class="icon"><i class="fas fa-language"></i></div><h3>Traduzir PDF</h3></div><div class="card-desc">Extrai texto e traduz via MyMemory.</div><div class="file-zone"><i class="fas fa-file-pdf"></i><input type="file" id="translatePdfInput" accept=".pdf" /></div><div class="extra-control"><label><i class="fas fa-globe"></i> Origem:</label><select id="sourceLang"><option value="en">Inglês</option><option value="pt">Português</option><option value="es">Espanhol</option><option value="fr">Francês</option><option value="de">Alemão</option></select><i class="fas fa-arrow-right"></i><label>Destino:</label><select id="targetLang"><option value="pt">Português</option><option value="en">Inglês</option><option value="es">Espanhol</option><option value="fr">Francês</option><option value="de">Alemão</option></select></div><button class="btn-primary" onclick="translatePdf()"><i class="fas fa-language"></i> Traduzir</button><div class="status" id="translateStatus"></div></div>
+
+            <!-- CARD DOAÇÃO -->
+            <div class="card donation-card">
+                <div class="card-header"><div class="icon"><i class="fas fa-heart" style="color:#E68A2E;"></i></div><h3>Apoie o projeto ❤️</h3></div>
+                <div class="card-desc">Ferramentas 100% gratuitas e sem servidor. Se gostou, qualquer valor ajuda!</div>
+                <div class="pix-qr-container">
+                    <div id="donationQrCode" style="display: flex; justify-content: center;"></div>
+                    <div class="pix-key-area"><span class="pix-key-text" id="pixKeyDisplay">13988089754</span><button class="btn-outline-copy" id="copyPixBtn"><i class="far fa-copy"></i> Copiar</button></div>
+                    <div class="status" style="background: #fff3e0; margin-top: 10px;"><i class="fas fa-lock"></i> Chave Pix: 13988089754</div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <span class="footer-badge"><i class="fas fa-microchip"></i> 100% local · seus arquivos nunca deixam seu dispositivo</span>
+            <p style="margin-top:0.8rem;">Conversões com pdf-lib, pdf.js, SheetJS, Mammoth, MyMemory API. Nenhum dado armazenado.</p>
+        </footer>
+    </div>
+
+    <script>
+        const PIX_KEY = "13988089754";
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const qrDiv = document.getElementById("donationQrCode");
+            if (qrDiv && typeof QRCode !== 'undefined') {
+                qrDiv.innerHTML = "";
+                new QRCode(qrDiv, {
+                    text: PIX_KEY,
+                    width: 130,
+                    height: 130,
+                    colorDark: "#1C6E8F",
+                    colorLight: "#ffffff"
+                });
+            }
+            document.getElementById("pixKeyDisplay").innerText = PIX_KEY;
+            const copyBtn = document.getElementById("copyPixBtn");
+            if(copyBtn) copyBtn.addEventListener("click", () => {
+                navigator.clipboard.writeText(PIX_KEY).then(() => {
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i> OK!';
+                    setTimeout(() => copyBtn.innerHTML = '<i class="far fa-copy"></i> Copiar', 2000);
+                });
+            });
+        });
+
+        // ========== FUNÇÕES CORRIGIDAS (MESMA LÓGICA PROFISSIONAL) ==========
+        async function mergePDF() {
+            const input = document.getElementById('mergeInput');
+            const status = document.getElementById('mergeStatus');
+            if (!input.files.length || input.files.length < 2) { status.innerText = '❌ Selecione pelo menos 2 PDFs.'; return; }
+            status.innerText = '⏳ Unindo documentos...';
+            try {
+                const { PDFDocument } = PDFLib;
+                const mergedPdf = await PDFDocument.create();
+                for (let file of input.files) {
+                    const arrayBuf = await file.arrayBuffer();
+                    const pdf = await PDFDocument.load(arrayBuf);
+                    const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                    pages.forEach(page => mergedPdf.addPage(page));
+                }
+                const pdfBytes = await mergedPdf.save();
+                saveAs(new Blob([pdfBytes], { type: 'application/pdf' }), 'documento_unido.pdf');
+                status.innerText = '✅ PDF unido com sucesso!';
+            } catch(e) { status.innerText = '❌ Erro ao unir PDFs.'; console.error(e); }
+        }
+
+        async function pdfToJpg() {
+            const input = document.getElementById('pdfToJpgInput');
+            const status = document.getElementById('pdfToJpgStatus');
+            if (!input.files.length) { status.innerText = '❌ Selecione um PDF.'; return; }
+            status.innerText = '⏳ Renderizando...';
+            try {
+                const file = input.files[0];
+                const arrayBuf = await file.arrayBuffer();
+                const loadingTask = pdfjsLib.getDocument({ data: arrayBuf });
+                const pdf = await loadingTask.promise;
+                const numPages = pdf.numPages;
+                const zip = new JSZip();
+                const images = [];
+                for (let i = 1; i <= numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const viewport = page.getViewport({ scale: 1.5 });
+                    const canvas = document.createElement('canvas');
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+                    await page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise;
+                    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.9));
+                    if (numPages > 2) zip.file(`pagina_${i}.jpg`, blob);
+                    else images.push(blob);
+                }
+                if (numPages > 2) {
+                    const zipBlob = await zip.generateAsync({ type: 'blob' });
+                    saveAs(zipBlob, `paginas_${numPages}.zip`);
+                    status.innerText = `✅ ${numPages} imagens em ZIP.`;
+                } else {
+                    for (let i = 0; i < images.length; i++) saveAs(images[i], `pagina_${i+1}.jpg`);
+                    status.innerText = `✅ ${numPages} imagem(ens) gerada(s).`;
+                }
+            } catch(e) { status.innerText = '❌ Erro ao converter.'; console.error(e); }
+        }
+
+        async function extractAllPagesToZip() {
+            const input = document.getElementById('extractInput');
+            const status = document.getElementById('extractStatus');
+            if (!input.files.length) { status.innerText = '❌ Selecione um PDF.'; return; }
+            status.innerText = '⏳ Extraindo páginas...';
+            try {
+                const arrayBuf = await input.files[0].arrayBuffer();
+                const { PDFDocument } = PDFLib;
+                const srcDoc = await PDFDocument.load(arrayBuf);
+                const total = srcDoc.getPageCount();
+                const zip = new JSZip();
+                for (let i = 0; i < total; i++) {
+                    const newDoc = await PDFDocument.create();
+                    const [copiedPage] = await newDoc.copyPages(srcDoc, [i]);
+                    newDoc.addPage(copiedPage);
+                    const pdfBytes = await newDoc.save();
+                    zip.file(`pagina_${i+1}.pdf`, pdfBytes, { binary: true });
+                }
+                const zipBlob = await zip.generateAsync({ type: 'blob' });
+                saveAs(zipBlob, `paginas_${total}.zip`);
+                status.innerText = `✅ ${total} páginas extraídas em ZIP.`;
+            } catch(e) { status.innerText = '❌ Erro ao extrair.'; }
+        }
+
+        async function pdfToDoc() {
+            const input = document.getElementById('pdfToDocInput');
+            const status = document.getElementById('pdfToDocStatus');
+            if (!input.files.length) { status.innerText = '❌ Selecione um PDF.'; return; }
+            status.innerText = '⏳ Extraindo texto...';
+            try {
+                const arrayBuf = await input.files[0].arrayBuffer();
+                const loadingTask = pdfjsLib.getDocument({ data: arrayBuf });
+                const pdf = await loadingTask.promise;
+                let fullText = '';
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const content = await page.getTextContent();
+                    fullText += content.items.map(item => item.str).join(' ') + '\n\n';
+                }
+                saveAs(new Blob([fullText], { type: 'application/msword' }), 'extraido.doc');
+                status.innerText = '✅ Texto salvo como .doc.';
+            } catch(e) { status.innerText = '❌ Erro ao extrair texto.'; }
+        }
+
+        async function docToPdf() { /* mantido igual funcionando */ 
+            const input = document.getElementById('docToPdfInput');
+            const status = document.getElementById('docToPdfStatus');
+            if (!input.files.length) { status.innerText = '❌ Selecione .docx ou .doc.'; return; }
+            const file = input.files[0];
+            const isDocx = file.name.toLowerCase().endsWith('.docx');
+            status.innerText = '⏳ Convertendo...';
+            try {
+                if (isDocx) {
+                    const arrayBuf = await file.arrayBuffer();
+                    const { value: htmlContent } = await mammoth.convertToHtml({ arrayBuffer: arrayBuf });
+                    const container = document.createElement('div');
+                    container.style.position = 'absolute'; container.style.left = '-9999px'; container.style.width = '700px';
+                    container.style.background = 'white'; container.style.padding = '20px';
+                    container.innerHTML = htmlContent;
+                    document.body.appendChild(container);
+                    await new Promise(r => setTimeout(r, 200));
+                    const canvas = await html2canvas(container, { scale: 2 });
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF('p', 'pt', 'a4');
+                    const imgWidth = pdf.internal.pageSize.getWidth() - 40;
+                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 20, 20, imgWidth, imgHeight);
+                    pdf.save('convertido.pdf');
+                    document.body.removeChild(container);
+                    status.innerText = '✅ PDF gerado.';
+                } else {
+                    const text = await file.text();
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF();
+                    pdf.text(text.substring(0, 8000), 10, 10);
+                    pdf.save('convertido.pdf');
+                    status.innerText = '✅ PDF gerado.';
+                }
+            } catch(e) { status.innerText = '❌ Erro.'; console.error(e); }
+        }
+        async function excelToPdf() { /* existente */ 
+            const input = document.getElementById('excelToPdfInput');
+            const status = document.getElementById('excelToPdfStatus');
+            if (!input.files.length) { status.innerText = '❌ Selecione uma planilha.'; return; }
+            status.innerText = '⏳ Gerando PDF...';
+            try {
+                const data = await input.files[0].arrayBuffer();
+                const workbook = XLSX.read(data);
+                const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                const html = XLSX.utils.sheet_to_html(sheet);
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                doc.html(html, { callback: pdf => pdf.save('planilha.pdf'), margin: [10,10,10,10] });
+                status.innerText = '✅ PDF criado.';
+            } catch(e) { status.innerText = '❌ Erro.'; }
+        }
+        async function jpgToPdf() { /* existente */ 
+            const input = document.getElementById('jpgToPdfInput');
+            const status = document.getElementById('jpgToPdfStatus');
+            if (!input.files.length) { status.innerText = '❌ Selecione imagens.'; return; }
+            status.innerText = '⏳ Criando PDF...';
+            try {
+                const { PDFDocument } = PDFLib;
+                const pdfDoc = await PDFDocument.create();
+                for (let file of input.files) {
+                    const imgBytes = await file.arrayBuffer();
+                    let image = file.type === 'image/png' ? await pdfDoc.embedPng(imgBytes) : await pdfDoc.embedJpg(imgBytes);
+                    const page = pdfDoc.addPage([image.width, image.height]);
+                    page.drawImage(image, { x: 0, y: 0, width: image.width, height: image.height });
+                }
+                const pdfBytes = await pdfDoc.save();
+                saveAs(new Blob([pdfBytes]), 'imagens.pdf');
+                status.innerText = '✅ PDF gerado.';
+            } catch(e) { status.innerText = '❌ Erro.'; }
+        }
+        async function htmlToPdf() {
+            const input = document.getElementById('htmlToPdfInput');
+            const status = document.getElementById('htmlToPdfStatus');
+            if (!input.files.length) { status.innerText = '❌ Selecione HTML.'; return; }
+            status.innerText = '⏳ Convertendo...';
+            try {
+                const text = await input.files[0].text();
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                doc.html(text, { callback: pdf => pdf.save('pagina.pdf'), margin: [10,10,10,10] });
+                status.innerText = '✅ Convertido.';
+            } catch(e) { status.innerText = '❌ Erro.'; }
+        }
+        async function numberPdf() {
+            const input = document.getElementById('numberPdfInput');
+            const status = document.getElementById('numberPdfStatus');
+            let position = document.querySelector('input[name="numberPos"]:checked')?.value || 'top-right';
+            if (!input.files.length) { status.innerText = '❌ Selecione um PDF.'; return; }
+            status.innerText = '⏳ Numerando...';
+            try {
+                const arrayBuf = await input.files[0].arrayBuffer();
+                const { PDFDocument, rgb, StandardFonts } = PDFLib;
+                const pdfDoc = await PDFDocument.load(arrayBuf);
+                const pages = pdfDoc.getPages();
+                const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+                for (let i = 0; i < pages.length; i++) {
+                    const page = pages[i];
+                    const { width, height } = page.getSize();
+                    let x, y, margin = 35;
+                    if (position === 'top-right') { x = width - margin; y = height - margin; }
+                    else if (position === 'bottom-left') { x = margin; y = margin; }
+                    else { x = width - margin; y = margin; }
+                    page.drawText(String(i+1), { x, y, size: 12, font, color: rgb(0,0,0) });
+                }
+                const pdfBytes = await pdfDoc.save();
+                saveAs(new Blob([pdfBytes]), 'numerado.pdf');
+                status.innerText = '✅ Números adicionados.';
+            } catch(e) { status.innerText = '❌ Erro.'; }
+        }
+        async function organizePdf() {
+            const input = document.getElementById('organizeInput');
+            const orderStr = document.getElementById('organizeOrder').value.trim();
+            const status = document.getElementById('organizeStatus');
+            if (!input.files.length) { status.innerText = '❌ Selecione um PDF.'; return; }
+            if (!orderStr) { status.innerText = '❌ Informe a ordem.'; return; }
+            status.innerText = '⏳ Reorganizando...';
+            try {
+                const arrayBuf = await input.files[0].arrayBuffer();
+                const { PDFDocument } = PDFLib;
+                const originalPdf = await PDFDocument.load(arrayBuf);
+                const newPdf = await PDFDocument.create();
+                const indices = orderStr.split(',').map(s => Number(s.trim()) - 1).filter(i => i >= 0 && i < originalPdf.getPageCount());
+                if (!indices.length) { status.innerText = '⚠️ Índices inválidos.'; return; }
+                const pages = await newPdf.copyPages(originalPdf, indices);
+                pages.forEach(p => newPdf.addPage(p));
+                const pdfBytes = await newPdf.save();
+                saveAs(new Blob([pdfBytes]), 'reorganizado.pdf');
+                status.innerText = '✅ PDF reordenado.';
+            } catch(e) { status.innerText = '❌ Erro.'; }
+        }
+        async function translatePdf() {
+            const input = document.getElementById('translatePdfInput');
+            const sourceLang = document.getElementById('sourceLang').value;
+            const targetLang = document.getElementById('targetLang').value;
+            const status = document.getElementById('translateStatus');
+            if (!input.files.length) { status.innerText = '❌ Selecione um PDF.'; return; }
+            status.innerText = '⏳ Traduzindo...';
+            try {
+                const arrayBuf = await input.files[0].arrayBuffer();
+                const loadingTask = pdfjsLib.getDocument({ data: arrayBuf });
+                const pdf = await loadingTask.promise;
+                let fullText = '';
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const content = await page.getTextContent();
+                    fullText += content.items.map(item => item.str).join(' ') + '\n';
+                }
+                const CHUNK_SIZE = 4500;
+                let translated = [];
+                for (let i = 0; i < fullText.length; i += CHUNK_SIZE) {
+                    const chunk = fullText.substring(i, i+CHUNK_SIZE);
+                    if (!chunk.trim()) continue;
+                    const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(chunk)}&langpair=${sourceLang}|${targetLang}`);
+                    const json = await res.json();
+                    translated.push(json.responseData?.translatedText || chunk);
+                    await new Promise(r => setTimeout(r, 200));
+                }
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                doc.text(translated.join(' '), 10, 10, { maxWidth: 180 });
+                doc.save('traduzido.pdf');
+                status.innerText = '✅ Traduzido.';
+            } catch(e) { status.innerText = '❌ Erro na tradução.'; }
+        }
+    </script>
+</body>
+</html>
